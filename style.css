@@ -1,0 +1,106 @@
+/* Un sol tema fosc: negre verdós, verd Matrix i text verd pàl·lid.
+   Layout: una columna estreta amb glifs fixos (imatge estàtica, sense JavaScript) al darrere. */
+
+@font-face {
+  font-family: "Martian Mono";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 800;
+  font-stretch: 75% 112.5%;
+  src: url("martian-mono.woff2") format("woff2");
+}
+
+:root {
+  --paper: #07110b;
+  --ink: #c9f7d6;
+  --ink-soft: #7fae8f;
+  --rule: #153a24;
+  --green: #2bf26b;
+  --font: "Martian Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html, body { min-height: 100%; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 0.875rem;
+  line-height: 1.65;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: url("bg.svg") repeat;
+  opacity: 0.2;
+  z-index: 0;
+  pointer-events: none;
+}
+
+main {
+  position: relative;
+  z-index: 1;
+  max-width: 42rem;
+  margin-inline: auto;
+  padding: clamp(4rem, 14vh, 9rem) 1.25rem 4rem;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(2.25rem, 11vw, 4.5rem);
+  font-weight: 800;
+  font-stretch: 112%;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: #eafff1;
+  text-shadow: 0 0 0.5em rgba(7, 17, 11, 0.9), 0 0 1.4em rgba(43, 242, 107, 0.3);
+}
+h1 span { color: var(--green); font-weight: 300; }
+
+h2 {
+  margin: 4rem 0 1rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--green);
+}
+
+.projects {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--rule);
+}
+
+.projects li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.15rem 1rem;
+  padding-block: 1.1rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.p-name { font-size: 0.9375rem; font-weight: 600; color: var(--ink); }
+.p-desc { color: var(--ink-soft); }
+.p-year { font-size: 0.8125rem; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+
+.p-name a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
+}
+.p-name a:hover { color: var(--green); }
+.p-name a:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; border-radius: 2px; }
+
+@media (min-width: 40rem) {
+  .projects li {
+    grid-template-columns: 12rem minmax(0, 1fr) auto;
+    align-items: baseline;
+  }
+}
