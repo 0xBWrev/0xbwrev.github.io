@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>0xbwrev</title>
+  <meta name="description" content="0xbwrev: personal page.">
+  <link rel="canonical" href="https://0xbwrev.io/">
+  <meta name="theme-color" content="#07110b">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%2307110b'/%3E%3Ctext x='32' y='43' text-anchor='middle' font-family='monospace' font-size='30' font-weight='700' fill='%232bf26b'%3E0x%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Martian+Mono:wdth,wght@75..112,300..800&display=swap">
+  <style>
+    /* Un solo tema oscuro, por decisión: negro verdoso, verde Matrix y texto verde pálido.
+       Layout: una columna estrecha a la izquierda con glifos fijos (sin animación) detrás. */
+    :root {
+      --paper: #07110b;
+      --ink: #c9f7d6;
+      --ink-soft: #7fae8f;
+      --rule: #153a24;
+      --green: #2bf26b;
+      --font: "Martian Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      color-scheme: dark;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { min-height: 100%; }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--font);
+      font-size: 0.875rem;
+      line-height: 1.65;
+    }
+
+    #glyphs {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.2;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 42rem;
+      margin-inline: auto;
+      padding: clamp(4rem, 14vh, 9rem) 1.25rem 4rem;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2.25rem, 11vw, 4.5rem);
+      font-weight: 800;
+      font-stretch: 112%;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      color: #eafff1;
+      text-shadow: 0 0 0.5em rgba(7, 17, 11, 0.9), 0 0 1.4em rgba(43, 242, 107, 0.3);
+    }
+    h1 span { color: var(--green); font-weight: 300; }
+
+    h2 {
+      margin: 4rem 0 1rem;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--green);
+    }
+
+    .projects {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      border-top: 1px solid var(--rule);
+    }
+
+    .projects li {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.15rem 1rem;
+      padding-block: 1.1rem;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .p-name { font-size: 0.9375rem; font-weight: 600; color: var(--ink); }
+    .p-desc { color: var(--ink-soft); }
+    .p-year { font-size: 0.8125rem; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+
+    .p-name a {
+      color: inherit;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 0.25em;
+    }
+    .p-name a:hover { color: var(--green); }
+    .p-name a:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; border-radius: 2px; }
+
+    @media (min-width: 40rem) {
+      .projects li {
+        grid-template-columns: 10rem minmax(0, 1fr) auto;
+        align-items: baseline;
+      }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="glyphs" aria-hidden="true"></canvas>
+
+  <main>
+    <h1><span>0x</span>bwrev</h1>
+
+    <h2>Projects</h2>
+    <!-- EDIT: replace these three rows with your projects.
+         To link one, wrap its name: <a href="https://...">name</a> -->
+    <ul class="projects">
+      <li>
+        <span class="p-name">project-one</span>
+        <span class="p-desc">One line on what it does.</span>
+        <span class="p-year">2026</span>
+      </li>
+      <li>
+        <span class="p-name">project-two</span>
+        <span class="p-desc">One line on what it does.</span>
+        <span class="p-year">2025</span>
+      </li>
+      <li>
+        <span class="p-name">project-three</span>
+        <span class="p-desc">One line on what it does.</span>
+        <span class="p-year">2025</span>
+      </li>
+    </ul>
+  </main>
+
+  <script>
+    /* Fondo de glifos estático: se dibuja una vez (y de nuevo si cambia el tamaño de la ventana). Sin animación. */
+    (function () {
+      var canvas = document.getElementById('glyphs');
+      var ctx = canvas.getContext('2d');
+      if (!ctx) return;
+
+      var glyphs = 'ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝ0123456789ABCDEF'.split('');
+      var size = 18, w = 0, h = 0, cols = 0, drops = [], skip = [], frame = 0;
+
+      function setup() {
+        var dpr = Math.min(window.devicePixelRatio || 1, 2);
+        w = window.innerWidth;
+        h = window.innerHeight;
+        canvas.width = Math.round(w * dpr);
+        canvas.height = Math.round(h * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        ctx.fillStyle = '#07110b';
+        ctx.fillRect(0, 0, w, h);
+        ctx.font = '600 ' + size + 'px "Martian Mono", monospace';
+        cols = Math.ceil(w / size);
+        drops = []; skip = [];
+        for (var i = 0; i < cols; i++) {
+          drops.push(Math.floor(Math.random() * (h / size)) - 10);
+          skip.push(Math.random() < 0.5 ? 2 + Math.floor(Math.random() * 3) : 0);
+        }
+        for (var k = 0; k < 140; k++) step();
+      }
+
+      function step() {
+        frame++;
+        ctx.fillStyle = 'rgba(7, 17, 11, 0.16)';
+        ctx.fillRect(0, 0, w, h);
+        ctx.fillStyle = '#2bf26b';
+        for (var i = 0; i < cols; i++) {
+          if (!skip[i] || frame % skip[i] !== 0) continue;
+          var y = drops[i] * size;
+          if (y > 0) {
+            ctx.fillText(glyphs[(Math.random() * glyphs.length) | 0], i * size, y);
+          }
+          if (y > h && Math.random() > 0.975) drops[i] = 0; else drops[i]++;
+        }
+      }
+
+      setup();
+
+      var timer;
+      window.addEventListener('resize', function () {
+        clearTimeout(timer);
+        timer = setTimeout(setup, 150);
+      });
+    })();
+  </script>
+</body>
+</html>
